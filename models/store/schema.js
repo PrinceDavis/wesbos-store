@@ -7,15 +7,15 @@ mongoose.Promise = global.Promise
 const schema = new mongoose.Schema({
   name: {type: String, trim: true, required: 'Please enter a store name'},
   slug: String,
-  description: { type: String, trim: true},
+  description: { type: String, trim: true },
   tags: [String]
 })
 
-schema.pre('save', function(next) {
+schema.pre('save', function (next) {
   if (!this.isModified('name')) return next()
   this.slug = slug(this.name)
   next()
-  //todo make more resiliant so slugs are unique
+  // todo make more resiliant so slugs are unique
 })
 
 module.exports = schema
