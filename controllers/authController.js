@@ -1,9 +1,23 @@
 'use strict'
 const passport = require('passport')
 
-exports.log = passport.authenticate('local', {
+exports.login = passport.authenticate('local', {
   failureRedirect: '/login',
   failureFlash: 'failed Login!',
   successRedirect: '/',
   successFlash: 'You are logged in!'
 })
+
+exports.logout = (req, res) => {
+  req.logout()
+  req.flash('success', 'You are now logged out!')
+  res.redirect('/')
+}
+
+exports.isLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    next()
+  }
+  req.flash('error', 'Oops you must be logged in to do that!')
+  res.redirect('/login')
+}

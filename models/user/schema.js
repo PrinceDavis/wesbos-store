@@ -28,4 +28,8 @@ const Schema = new mongoose.Schema({
 
 Schema.plugin(passportLocalMongoose, { usernameField: 'email' })
 Schema.plugin(mongodbErrorHandler)
+Schema.virtual('gravatar').get(function () {
+  const hash = md5(this.email)
+  return `https://gravatar.com/avatar/${hash}?s=200`
+})
 module.exports = Schema
