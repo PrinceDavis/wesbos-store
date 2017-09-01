@@ -25,7 +25,8 @@ const schema = new mongoose.Schema({
       type: String,
       required: 'You must supply an address!'
     }
-  }
+  },
+  photo: String
 })
 
 schema.pre('save', function (next) {
