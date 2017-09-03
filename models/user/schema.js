@@ -25,7 +25,10 @@ const Schema = new mongoose.Schema({
   },
   photo: String,
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  hearts: [
+    { type: mongoose.Schema.ObjectId, ref: 'Store' }
+  ]
 })
 
 Schema.plugin(passportLocalMongoose, { usernameField: 'email' })
