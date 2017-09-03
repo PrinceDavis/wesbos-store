@@ -1,9 +1,8 @@
 'use strict'
 const mongoose = require('mongoose')
 const slug = require('slug')
-const methods = require('./methods')
 
-const schema = new mongoose.Schema({
+const Schema = new mongoose.Schema({
   name: {type: String, trim: true, required: 'Please enter a store name'},
   slug: String,
   description: { type: String, trim: true },
@@ -34,7 +33,12 @@ const schema = new mongoose.Schema({
   }
 })
 
-schema.pre('save', async function (next) {
+Schema.index({
+  name: 'text',
+  description: 'text'
+})
+
+Schema.pre('save', async function (next) {
   if (!this.isModified('name')) return next()
   this.slug = slug(this.name)
   const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i')
@@ -46,4 +50,4 @@ schema.pre('save', async function (next) {
   // todo make more resiliant so slugs are unique
 })
 
-module.exports = schema
+module.exports = Schema
