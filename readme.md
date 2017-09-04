@@ -3,7 +3,7 @@
 Just you wait folks!
 
 ### Visit ###
-* [Live at](https://wes-stores-tcaesqhjgm.now.sh)
+* [Live at](https://wes-stores-tcaesqhjgm.now.sh/)
 
 ### Credentails ###
 
