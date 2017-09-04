@@ -26,8 +26,18 @@ exports.addStore = (req, res) => {
 }
 
 exports.getStores = async (req, res) => {
-  const stores = await Store.find()
-  res.render('stores', {title: 'Stores', stores})
+  const page = req.params.page || 1
+  const limit = 4
+  const skip = (page * limit) - limit
+  const storesPromise = Store.find().skip(skip).limit(limit).sort({createdAt: 'desc'})
+  const countPromise = Store.count()
+  const [stores, count] = await Promise.all([storesPromise, countPromise])
+  const pages = Math.ceil(count / limit)
+  if (!stores.length && skip) {
+    req.flash('info', `Hey! You asked for page ${page}. But that doesn't exist. so i put you on page ${pages}`)
+    return res.redirect(`/stores/page/${pages}`)
+  }
+  res.render('stores', {title: 'Stores', stores, page, pages, count})
 }
 
 exports.upload = multer(multerOptions).single('photo')
@@ -148,4 +158,9 @@ exports.getHearts = async (req, res) => {
     _id: { $in: req.user.hearts }
   })
   res.render('stores', {title: 'Hearted stores', stores})
+}
+
+exports.getTopStores = async (req, res) => {
+  const stores = await Store.getTopStores()
+  res.render('topStores', {stores, title: '☆ Top Stores!'})
 }

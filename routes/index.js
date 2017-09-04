@@ -9,6 +9,7 @@ const { catchErrors } = require('../handlers/errorHandlers')
 // Do work here
 router.get('/', storeController.getStores)
 router.get('/stores', catchErrors(storeController.getStores))
+router.get('/stores/page/:page', catchErrors(storeController.getStores))
 router.get('/add', authController.isLoggedIn, storeController.addStore)
 router.get('/stores/:slug', storeController.getStoreBySlug)
 router.post('/add',
@@ -52,7 +53,7 @@ router.post('/reviews/:id',
   catchErrors(reviewController.addReview)
 )
 
-router.get('/top')
+router.get('/top', catchErrors(storeController.getTopStores))
 
 /*
   Api

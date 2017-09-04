@@ -1,7 +1,11 @@
 'use strict'
 const mongoose = require('mongoose')
-const schema = require('./schema')
+const Schema = require('./schema')
 const methods = require('./methods')
 
-schema.statics.getTagsList = methods.getTagsList
-module.exports = mongoose.model('Store', schema)
+Schema.statics.getTagsList = methods.getTagsList
+Schema.statics.getTopStores = methods.getTopStores
+Schema.pre('find', methods.autopopulate)
+Schema.pre('findOne', methods.autopopulate)
+
+module.exports = mongoose.model('Store', Schema)
