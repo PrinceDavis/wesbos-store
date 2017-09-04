@@ -20,7 +20,7 @@ exports.logout = (req, res) => {
 
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
-    next()
+    return next()
   }
   req.flash('error', 'Oops you must be logged in to do that!')
   res.redirect('/login')
@@ -61,7 +61,7 @@ exports.reset = async (req, res) => {
 exports.confirmedPasswords = (req, res, next) => {
   if (req.body.password === req.body['password-confirm']) return next()
   req.flash('error', 'Passwords do not match')
-  res.redirect('back')
+  return res.redirect('back')
 }
 
 exports.update = async (req, res) => {
