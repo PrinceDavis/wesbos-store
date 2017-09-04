@@ -1,7 +1,8 @@
 extends layout
 include mixins/_reviewForm
+include mixins/_review
 block content
-  .single 
+  .single
     .single__hero
       img.single__image(src=`/uploads/${store.photo || 'store.png'}`)
       h2.title.title--single
@@ -19,3 +20,8 @@ block content
 
     if user
       +reviewForm(store)
+    if store.reviews
+      .reviews
+        each review in store.reviews
+          .review
+            +review(review)

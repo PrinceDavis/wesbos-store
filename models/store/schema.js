@@ -31,6 +31,9 @@ const Schema = new mongoose.Schema({
     ref: 'User',
     required: 'You must supply an author'
   }
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 })
 
 Schema.index({
@@ -52,6 +55,12 @@ Schema.pre('save', async function (next) {
   }
   next()
   // todo make more resiliant so slugs are unique
+})
+
+Schema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'store'
 })
 
 module.exports = Schema
